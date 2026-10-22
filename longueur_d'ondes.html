@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Longueur d'Ondes ⚡</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@300;400;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            /* Mode Sombre (par défaut) */
+            --bg: #020617;
+            --surface: rgba(15, 23, 42, 0.7);
+            --primary: #8b5cf6;
+            --secondary: #06b6d4;
+            --accent: #f43f5e;
+            --target-center: #ef4444;
+            --target-mid: #f97316;
+            --target-wide: #eab308;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: rgba(148, 163, 184, 0.1);
+            --shadow: rgba(0, 0, 0, 0.5);
+            --range-bg: rgba(2, 6, 23, 0.6);
+        }
+
+        body.light {
+            /* Mode Clair */
+            --bg: #f1f5f9;
+            --surface: rgba(255, 255, 255, 0.8);
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border: rgba(0, 0, 0, 0.1);
+            --shadow: rgba(0, 0, 0, 0.1);
+            --range-bg: rgba(226, 232, 240, 0.8);
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+            transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image: 
+                radial-gradient(circle at 50% -20%, #2e1065 0%, transparent 50%),
+                radial-gradient(circle at 0% 100%, #082f49 0%, transparent 40%);
+        }
+
+        body.light {
+            background-image: 
+                radial-gradient(circle at 50% -20%, #ddd6fe 0%, transparent 50%),
+                radial-gradient(circle at 0% 100%, #bae6fd 0%, transparent 40%);
+        }
+
+        .h-title { font-family: 'Syne', sans-serif; font-weight: 800; text-transform: uppercase; letter-spacing: -0.02em; }
+        .f-mono { font-family: 'JetBrains Mono', monospace; font-size: 0.75rem; }
+
+        .glass-card {
+            background: var(--surface);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border);
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px var(--shadow);
+        }
+
+        /* --- Theme Toggle Button --- */
+        .theme-toggle {
+            position: fixed;
+            top: 1.5rem;
+            right: 1.5rem;
+            z-index: 100;
+            padding: 0.75rem;
+            border-radius: 50%;
+            background: var(--surface);
+            border: 1px solid var(--border);
+            cursor: pointer;
+            color: var(--text-main);
+            box-shadow: 0 4px 12px var(--shadow);
+        }
+
+        /* --- Range Slider --- */
+        .range-container {
+            position: relative;
+            width: 100%;
+            height: 80px;
+            background: var(--range-bg);
+            border-radius: 16px;
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            padding: 0 10px;
+            margin: 2rem 0;
+        }
+
+        input[type=range] {
+            -webkit-appearance: none;
+            width: 100%;
+            background: transparent;
+            z-index: 20;
+            position: relative;
+        }
+
+        input[type=range]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            height: 60px;
+            width: 6px;
+            border-radius: 3px;
+            background: var(--text-main);
+            cursor: pointer;
+            box-shadow: 0 0 20px rgba(255, 255, 255, 0.4);
+            border: none;
+        }
+
+        /* --- Zones Cibles --- */
+        .target-block {
+            position: absolute;
+            height: 60px;
+            pointer-events: none;
+            transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 4px;
+        }
+        .t-wide { background: var(--target-wide); width: 14%; opacity: 0.3; z-index: 1; }
+        .t-mid { background: var(--target-mid); width: 8%; opacity: 0.6; z-index: 2; }
+        .t-center { background: var(--target-center); width: 3%; opacity: 1; z-index: 3; box-shadow: 0 0 15px var(--target-center); }
+
+        .btn {
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+            font-size: 0.9rem;
+        }
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 92, 246, 0.4);
+        }
+        .btn-secondary {
+            background: rgba(128, 128, 128, 0.1);
+            border: 1px solid var(--border);
+            color: var(--text-main);
+        }
+
+        .screen { display: none; opacity: 0; transform: translateY(10px); transition: all 0.4s; }
+        .screen.active { display: flex; opacity: 1; transform: translateY(0); }
+
+        .label-pill {
+            background: rgba(128, 128, 128, 0.05);
+            border: 1px solid var(--border);
+            padding: 0.75rem 1rem;
+            border-radius: 12px;
+            width: 48%;
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+    </style>
+</head>
+<body>
+
+    <button class="theme-toggle" onclick="toggleTheme()" id="themeBtn" title="Changer de mode">
+        <svg id="moon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
+        <svg id="sun" class="hidden" xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line></svg>
+    </button>
+
+    <div class="w-full max-w-lg p-4">
+        <div class="text-center mb-8">
+            <h1 class="h-title text-4xl tracking-tighter">Longueur <span class="text-purple-500">d'ondes</span></h1>
+            <p class="f-mono opacity-50 uppercase tracking-widest">Sur la même longueur d'ondes</p>
+        </div>
+
+        <div class="glass-card p-8 min-h-[400px] flex flex-col items-center justify-center relative overflow-hidden">
+            
+            <!-- ÉCRAN 1 : ACCUEIL -->
+            <div id="screen-start" class="screen active flex-col items-center text-center">
+                <div class="text-5xl mb-6">🧠</div>
+                <h2 class="h-title text-xl mb-4">Prêt pour la fusion ?</h2>
+                <p class="opacity-60 text-sm mb-8 leading-relaxed">
+                    Un joueur (le Psycho) doit faire deviner une position sur une échelle à son équipe grâce à un seul indice.
+                </p>
+                <button class="btn btn-primary" onclick="startGame()">Initier la session</button>
+            </div>
+
+            <!-- ÉCRAN 2 : PHASE PSYCHO -->
+            <div id="screen-psychic" class="screen flex-col items-center w-full">
+                <div class="flex items-center gap-2 mb-6">
+                    <span class="f-mono bg-red-500/20 text-red-500 px-2 py-1 rounded">SECRET</span>
+                    <span class="text-xs uppercase font-bold opacity-50">Rôle : LE PSYCHO</span>
+                </div>
+                
+                <p class="text-sm opacity-60 mb-6 text-center italic">Donnez votre indice pour cette position :</p>
+                
+                <div class="flex justify-between w-full mb-2">
+                    <div id="p-label-left" class="label-pill text-left border-l-4 border-l-purple-500 text-purple-600">...</div>
+                    <div id="p-label-right" class="label-pill text-right border-r-4 border-r-cyan-500 text-cyan-600">...</div>
+                </div>
+
+                <div class="range-container">
+                    <div id="target-psychic" class="w-full h-full relative flex items-center"></div>
+                </div>
+
+                <button class="btn btn-primary w-full mt-6" onclick="goToGuessing()">J'ai donné mon indice</button>
+            </div>
+
+            <!-- ÉCRAN 3 : PHASE ÉQUIPE -->
+            <div id="screen-guess" class="screen flex-col items-center w-full">
+                <div class="flex items-center gap-2 mb-6">
+                    <span class="f-mono bg-cyan-500/20 text-cyan-500 px-2 py-1 rounded">DÉBAT</span>
+                    <span class="text-xs uppercase font-bold opacity-50">Rôle : L'ÉQUIPE</span>
+                </div>
+
+                <p class="text-sm opacity-60 mb-6 text-center italic">Où se situe l'indice du Psycho ?</p>
+
+                <div class="flex justify-between w-full mb-2">
+                    <div id="g-label-left" class="label-pill text-left border-l-4 border-l-purple-500">...</div>
+                    <div id="g-label-right" class="label-pill text-right border-r-4 border-r-cyan-500">...</div>
+                </div>
+
+                <div class="range-container">
+                    <input type="range" id="user-guess" min="0" max="100" value="50">
+                </div>
+
+                <button class="btn btn-primary w-full mt-6" onclick="revealResult()">Confirmer la position</button>
+            </div>
+
+            <!-- ÉCRAN 4 : RÉSULTAT -->
+            <div id="screen-result" class="screen flex-col items-center w-full">
+                <h2 class="h-title text-2xl mb-8" id="result-title">Analyse</h2>
+
+                <div class="flex justify-between w-full mb-2">
+                    <div id="r-label-left" class="label-pill text-left opacity-30">...</div>
+                    <div id="r-label-right" class="label-pill text-right opacity-30">...</div>
+                </div>
+
+                <div class="range-container">
+                    <div id="final-target-zone" class="w-full h-full relative flex items-center"></div>
+                    <div id="user-marker" class="absolute w-[2px] h-[70px] bg-red-500 z-30 shadow-[0_0_10px_red]"></div>
+                </div>
+
+                <div id="score-text" class="text-2xl font-bold mb-8 h-title text-center">0 Points</div>
+                
+                <div class="flex gap-4 w-full">
+                    <button class="btn btn-secondary flex-1" onclick="showScreen('screen-start')">Menu</button>
+                    <button class="btn btn-primary flex-1" onclick="startGame()">Tour suivant</button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const opposites = [
+            ["Très sain", "Très toxique"], ["Inutile", "Indispensable"], ["Léger", "Lourd"],
+            ["Normal", "Bizarre"], ["Pas cher", "Très cher"], ["Classique", "Moderne"],
+            ["Faible", "Fort"], ["Ennuyeux", "Captivant"], ["Éphémère", "Immortel"],
+            ["Petit", "Gigantesque"], ["Coupable", "Innocent"], ["Populaire", "Niche"],
+            ["Salé", "Sucré"], ["Action", "Réflexion"], ["Démodé", "Tendance"],
+            ["Lent", "Rapide"], ["Froid", "Chaud"], ["Discret", "Bling-bling"],
+            ["Facile", "Difficile"], ["Sous-estimé", "Sur-estimé"], ["Propre", "Sale"],
+            ["Triste", "Joyeux"], ["Peur", "Courage"], ["Légal", "Illégal"],
+            ["Sérieux", "Drôle"], ["Fragile", "Solide"], ["Silencieux", "Bruyant"],
+            ["Privé", "Public"], ["Manuel", "Automatique"], ["Ancien", "Nouveau"]
+        ];
+
+        let currentTarget = 0;
+        let currentPair = [];
+
+        function toggleTheme() {
+            const body = document.body;
+            const sun = document.getElementById('sun');
+            const moon = document.getElementById('moon');
+            
+            body.classList.toggle('light');
+            
+            if (body.classList.contains('light')) {
+                sun.classList.remove('hidden');
+                moon.classList.add('hidden');
+            } else {
+                sun.classList.add('hidden');
+                moon.classList.remove('hidden');
+            }
+        }
+
+        function showScreen(id) {
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+        }
+
+        function createTargetHTML(position) {
+            return `
+                <div class="target-block t-wide" style="left: calc(${position}% - 7%)"></div>
+                <div class="target-block t-mid" style="left: calc(${position}% - 4%)"></div>
+                <div class="target-block t-center" style="left: calc(${position}% - 1.5%)"></div>
+            `;
+        }
+
+        function startGame() {
+            currentPair = opposites[Math.floor(Math.random() * opposites.length)];
+            currentTarget = Math.floor(Math.random() * 80) + 10;
+            document.getElementById('p-label-left').innerText = currentPair[0];
+            document.getElementById('p-label-right').innerText = currentPair[1];
+            document.getElementById('target-psychic').innerHTML = createTargetHTML(currentTarget);
+            showScreen('screen-psychic');
+        }
+
+        function goToGuessing() {
+            document.getElementById('g-label-left').innerText = currentPair[0];
+            document.getElementById('g-label-right').innerText = currentPair[1];
+            document.getElementById('user-guess').value = 50;
+            showScreen('screen-guess');
+        }
+
+        function revealResult() {
+            const guess = parseInt(document.getElementById('user-guess').value);
+            const diff = Math.abs(guess - currentTarget);
+            let score = 0;
+            if (diff <= 2) score = 4;
+            else if (diff <= 5) score = 3;
+            else if (diff <= 8) score = 2;
+
+            document.getElementById('r-label-left').innerText = currentPair[0];
+            document.getElementById('r-label-right').innerText = currentPair[1];
+            document.getElementById('final-target-zone').innerHTML = createTargetHTML(currentTarget);
+            document.getElementById('user-marker').style.left = `calc(${guess}% - 1px)`;
+
+            const scoreText = document.getElementById('score-text');
+            const title = document.getElementById('result-title');
+            
+            if (score === 4) {
+                scoreText.className = "text-3xl font-bold mb-8 h-title text-red-500";
+                scoreText.innerHTML = "SYNC PARFAITE !";
+                title.innerText = "TELEPATHIE CONFIRMÉE";
+            } else if (score > 0) {
+                scoreText.className = "text-2xl font-bold mb-8 h-title text-purple-500";
+                scoreText.innerHTML = `+${score} Points`;
+                title.innerText = "PRESQUE SYNCHRO";
+            } else {
+                scoreText.className = "text-2xl font-bold mb-8 h-title opacity-40";
+                scoreText.innerHTML = "0 Point";
+                title.innerText = "ERREUR DE SIGNAL";
+            }
+            showScreen('screen-result');
+        }
+    </script>
+</body>
+</html>
