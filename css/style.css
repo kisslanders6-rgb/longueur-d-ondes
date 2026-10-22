@@ -1,0 +1,418 @@
+/* Style néo-brutal : bordures épaisses, ombres pleines décalées, fond pointillé. */
+
+:root {
+    /* Mode sombre (par défaut) */
+    --bg: #020617;
+    --surface: #0f172a;
+    --ink: #f8fafc;            /* bordures et ombres « neutres » */
+    --text-main: #f8fafc;
+    --text-muted: #94a3b8;
+    --dots: rgba(148, 163, 184, 0.2);
+    --line: #334155;
+    --off: #475569;            /* étapes inactives */
+
+    --violet: #8b5cf6;
+    --violet-soft: #a78bfa;
+    --cyan: #22d3ee;
+    --rose: #fb7185;
+    --yellow: #eab308;
+    --navy: #020617;
+
+    --target-center: #ef4444;
+    --target-mid: #f97316;
+    --target-wide: #eab308;
+
+    --cta-bg: var(--violet-soft);
+    --cta-fg: var(--navy);
+    --brand: var(--cyan);
+
+    --border: 3px solid var(--ink);
+    --thumb-w: 18px;
+}
+
+body.light {
+    --bg: #f1f5f9;
+    --surface: #ffffff;
+    --ink: #0f172a;
+    --text-main: #0f172a;
+    --text-muted: #475569;
+    --dots: rgba(71, 85, 105, 0.22);
+    --line: #cbd5e1;
+    --off: #94a3b8;
+    --cta-bg: var(--violet);
+    --cta-fg: #ffffff;
+    --brand: #0e7490;
+    --border: 3px solid var(--ink); /* recalculé ici, sinon il garde l'--ink de :root */
+}
+
+* {
+    box-sizing: border-box;
+    -webkit-tap-highlight-color: transparent;
+    transition: background-color 0.3s, color 0.3s, border-color 0.3s;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    background-color: var(--bg);
+    background-image: radial-gradient(var(--dots) 1.5px, transparent 1.5px);
+    background-size: 22px 22px;
+    color: var(--text-main);
+    font-family: 'Inter', sans-serif;
+}
+
+button { font: inherit; color: inherit; cursor: pointer; }
+.hidden { display: none !important; }
+
+.app {
+    width: 100%;
+    max-width: 460px;
+    min-height: 100vh;
+    min-height: 100svh;
+    margin: 0 auto;
+    padding: 20px 24px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+/* --- En-tête --- */
+.topbar { display: flex; justify-content: space-between; align-items: center; }
+
+.brand {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.35em;
+    color: var(--brand);
+}
+
+.theme-toggle {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+    border-radius: 50%;
+    border: var(--border);
+    background: var(--surface);
+    box-shadow: 3px 3px 0 var(--violet);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- Typographie --- */
+.h-title {
+    margin: 0;
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+    text-align: center;
+}
+
+.logo { display: flex; flex-direction: column; align-items: center; gap: 2px; padding-top: 8px; }
+.logo .h-title { font-size: clamp(28px, 9.5vw, 46px); line-height: 0.95; }
+.logo-top { text-shadow: 3px 3px 0 var(--cyan), 6px 6px 0 var(--violet); }
+.logo-bottom { color: var(--violet-soft); text-shadow: 4px 4px 0 var(--ink); }
+body.light .logo-bottom { color: var(--violet); }
+.logo-wave { width: 100%; max-width: 230px; height: auto; stroke: var(--cyan); }
+
+.screen-title { font-size: clamp(22px, 7vw, 30px); }
+.screen-title--violet { text-shadow: 3px 3px 0 var(--violet); }
+.screen-title--cyan { text-shadow: 3px 3px 0 var(--cyan); }
+.screen-title--rose { text-shadow: 3px 3px 0 var(--rose); }
+
+.tagline {
+    margin: 0;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--text-muted);
+}
+
+.hint { margin: 0; text-align: center; font-size: 14px; line-height: 1.5; color: var(--text-muted); }
+
+.mono-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    color: var(--text-muted);
+}
+
+/* --- Cartes --- */
+.card {
+    border: var(--border);
+    border-radius: 20px;
+    background: var(--surface);
+    box-shadow: 6px 6px 0 var(--violet);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.how-step { display: flex; gap: 14px; align-items: center; font-size: 14px; line-height: 1.4; }
+.how-num {
+    flex: none;
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    border: var(--border);
+    color: var(--navy);
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* --- Étapes --- */
+.stepper {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.step {
+    min-height: 44px;
+    border-radius: 12px;
+    border: 3px solid var(--off);
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.step-num {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    border: 2px solid currentColor;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+}
+
+.step.is-active { border-color: var(--ink); color: var(--navy); box-shadow: 3px 3px 0 var(--ink); }
+.step--yellow.is-active { background: var(--yellow); }
+.step--cyan.is-active { background: var(--cyan); }
+.step--rose.is-active { background: var(--rose); }
+
+/* --- Étiquettes inclinées --- */
+.screen-head { display: flex; flex-direction: column; align-items: center; gap: 14px; padding-top: 14px; }
+
+.sticker {
+    padding: 6px 14px;
+    border: var(--border);
+    border-radius: 10px;
+    color: var(--navy);
+    box-shadow: 3px 3px 0 var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    letter-spacing: 0.25em;
+}
+.sticker--rose { background: var(--rose); transform: rotate(-4deg); }
+.sticker--cyan { background: var(--cyan); transform: rotate(3deg); }
+
+/* --- Libellés de l'échelle --- */
+.labels { display: flex; justify-content: space-between; gap: 12px; }
+
+.label-pill {
+    flex: 1;
+    min-width: 0;
+    padding: 12px 14px;
+    border: var(--border);
+    border-radius: 14px;
+    background: var(--surface);
+    font-weight: 600;
+    font-size: 15px;
+    overflow-wrap: anywhere;
+}
+.label-pill--left { box-shadow: 4px 4px 0 var(--violet); }
+.label-pill--right { box-shadow: 4px 4px 0 var(--cyan); text-align: right; }
+
+.labels--plain .label-pill {
+    padding: 0;
+    border: none;
+    background: none;
+    box-shadow: none;
+    font-size: 14px;
+    color: var(--text-muted);
+}
+
+/* --- Échelle --- */
+.range-container {
+    position: relative;
+    width: 100%;
+    height: 96px;
+    padding: 0 10px;
+    border: var(--border);
+    border-radius: 18px;
+    background-color: var(--surface);
+    /* ligne médiane discrète */
+    background-image: linear-gradient(var(--line), var(--line));
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: calc(100% - 20px) 3px;
+    box-shadow: 6px 6px 0 var(--violet);
+    display: flex;
+    align-items: center;
+}
+.range-container--cyan { box-shadow: 6px 6px 0 var(--cyan); }
+.range-container--rose { box-shadow: 6px 6px 0 var(--rose); }
+
+input[type=range] {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    background: transparent;
+    position: relative;
+    z-index: 20;
+}
+
+input[type=range]::-webkit-slider-runnable-track { height: 100%; background: transparent; }
+input[type=range]::-moz-range-track { background: transparent; }
+
+input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    height: 78px;
+    width: var(--thumb-w);
+    margin-top: 6px; /* (90px de piste − 78px) / 2 */
+    border-radius: 8px;
+    border: 3px solid var(--navy);
+    background: var(--text-main);
+    box-shadow: 3px 3px 0 var(--violet);
+    cursor: grab;
+}
+body.light input[type=range]::-webkit-slider-thumb { background: var(--surface); }
+
+input[type=range]::-moz-range-thumb {
+    height: 72px;
+    width: var(--thumb-w);
+    box-sizing: border-box;
+    border-radius: 8px;
+    border: 3px solid var(--navy);
+    background: var(--text-main);
+    box-shadow: 3px 3px 0 var(--violet);
+    cursor: grab;
+}
+body.light input[type=range]::-moz-range-thumb { background: var(--surface); }
+
+input[type=range]:focus-visible { outline: 3px dashed var(--cyan); outline-offset: 6px; border-radius: 12px; }
+
+/* Piste des cibles : rétrécie d'un demi-curseur de chaque côté pour que
+   X% corresponde exactement au centre du curseur à la valeur X. */
+.track {
+    position: relative;
+    height: 100%;
+    flex: 1;
+    margin: 0 calc(var(--thumb-w) / 2);
+    display: flex;
+    align-items: center;
+}
+
+.user-marker {
+    position: absolute;
+    top: -10px;
+    bottom: -10px;
+    width: 8px;
+    transform: translateX(-50%);
+    border-radius: 4px;
+    border: 2px solid var(--navy);
+    background: var(--text-main);
+    z-index: 30;
+}
+body.light .user-marker { background: var(--surface); }
+
+/* --- Zones cibles (largeur et position calculées en JS depuis ZONES) --- */
+.target-block {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    pointer-events: none;
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.t-wide { background: var(--target-wide); z-index: 1; }
+.t-mid { background: var(--target-mid); z-index: 2; border-inline: 2px solid var(--navy); }
+.t-center { background: var(--target-center); z-index: 3; border-inline: 2px solid var(--navy); }
+
+/* --- Boutons --- */
+.btn {
+    min-height: 64px;
+    padding: 0 20px;
+    border-radius: 16px;
+    border: var(--border);
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(15px, 4.4vw, 18px);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    transition: transform 0.1s, box-shadow 0.1s, background-color 0.3s;
+}
+.btn:active { transform: translate(3px, 3px); }
+
+.btn-primary { width: 100%; background: var(--cta-bg); color: var(--cta-fg); box-shadow: 5px 5px 0 var(--cyan); }
+.btn-primary:active { box-shadow: 2px 2px 0 var(--cyan); }
+.btn-cyan { width: 100%; background: var(--cyan); color: var(--navy); box-shadow: 5px 5px 0 var(--violet); }
+.btn-cyan:active { box-shadow: 2px 2px 0 var(--violet); }
+.btn-secondary { background: var(--surface); color: var(--text-main); box-shadow: 5px 5px 0 var(--off); }
+.btn-secondary:active { box-shadow: 2px 2px 0 var(--off); }
+
+.btn-row { display: flex; gap: 14px; }
+.btn-row .btn-secondary { flex: 1; }
+.btn-row .btn-primary { flex: 2; }
+
+.btn:focus-visible, .theme-toggle:focus-visible { outline: 3px dashed var(--cyan); outline-offset: 4px; }
+
+/* --- Résultat --- */
+.score-badge {
+    width: 132px;
+    height: 132px;
+    border: 4px solid var(--ink);
+    border-radius: 28px;
+    background: var(--surface);
+    color: var(--text-muted);
+    box-shadow: 7px 7px 0 var(--violet);
+    transform: rotate(-6deg);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.score-badge.is-perfect { background: var(--target-center); color: var(--navy); }
+.score-badge.is-close { background: var(--target-mid); color: var(--navy); }
+.score-value { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 60px; line-height: 1; }
+.score-unit { font-family: 'JetBrains Mono', monospace; font-size: 12px; letter-spacing: 0.2em; }
+
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; }
+.stat { padding: 10px; border: var(--border); border-radius: 14px; background: var(--surface); text-align: center; }
+.stat-label { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--text-muted); }
+.stat-value { font-family: 'Syne', sans-serif; font-weight: 800; font-size: 24px; }
+
+/* --- Écrans --- */
+.spacer { flex: 1; }
+
+/* Une transition ne se joue pas depuis display:none, d'où l'animation. */
+.screen { display: none; }
+.screen.active { display: flex; flex-direction: column; gap: 22px; flex: 1; animation: screen-in 0.4s; }
+@keyframes screen-in { from { opacity: 0; transform: translateY(10px); } }
+
+@media (prefers-reduced-motion: reduce) {
+    .screen.active { animation: none; }
+    .btn:active { transform: none; }
+}
