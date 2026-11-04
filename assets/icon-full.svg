@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Version pleine page pour l'écran d'accueil : le système arrondit lui-même les coins,
+       et le motif reste dans la zone sûre des icônes adaptatives (cercle de 80 %). -->
+  <rect width="64" height="64" fill="#6a4cf5"/>
+  <g transform="translate(32 32) scale(.75) translate(-32 -32)">
+    <path d="M8 30 Q 16 14 24 30 T 40 30 T 56 30" fill="none" stroke="#fbfaff" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" opacity=".55"/>
+    <rect x="30" y="10" width="4" height="44" rx="2" fill="#fbfaff"/>
+    <rect x="26" y="8" width="12" height="7" rx="3.5" fill="#fbfaff"/>
+    <circle cx="32" cy="38" r="5" fill="#fbfaff"/>
+  </g>
+</svg>
