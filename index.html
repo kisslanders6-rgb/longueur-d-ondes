@@ -2,150 +2,179 @@
 <html lang="fr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Longueur d'Ondes ⚡</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="theme-color" content="#f4f2fa" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#13111c" media="(prefers-color-scheme: dark)">
+    <title>Longueur d'Ondes</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Inter:wght@400;600&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,700;12..96,800&family=Onest:wght@400;500;600;700&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
 
     <main class="app">
         <header class="topbar">
-            <span class="brand">HAYS GAME</span>
-            <button class="theme-toggle" id="themeBtn" aria-label="Changer de mode" title="Changer de mode">
-                <svg id="moon" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg>
-                <svg id="sun" class="hidden" aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.5"></circle><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"></path></svg>
-            </button>
+            <div class="scoreboard" id="scoreboard" hidden>
+                <div class="sb-team" id="sb-0"><span class="sb-points" id="sb-points-0">0</span><span class="sb-name" id="sb-name-0"></span></div>
+                <div class="sb-goal">sur<br><b id="sb-goal">10</b></div>
+                <div class="sb-team sb-team--b" id="sb-1"><span class="sb-points" id="sb-points-1">0</span><span class="sb-name" id="sb-name-1"></span></div>
+            </div>
+            <span class="brand" id="brand">Hays Game</span>
+            <div class="topbar-actions">
+                <button class="icon-btn" id="btn-quit" type="button" aria-label="Quitter la partie" title="Quitter la partie" hidden>
+                    <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5 12 3l9 7.5V20a1 1 0 0 1-1 1h-5v-6h-6v6H4a1 1 0 0 1-1-1z"/></svg>
+                    <span class="quit-confirm">Quitter ?</span>
+                </button>
+                <button class="icon-btn" id="btn-theme" type="button" aria-label="Changer de mode" title="Changer de mode">
+                    <svg class="ico-moon" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+                    <svg class="ico-sun" aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+                </button>
+            </div>
         </header>
 
-        <!-- ÉCRAN 1 : ACCUEIL -->
-        <section id="screen-start" class="screen active">
+        <!-- ÉCRAN 1 : CONFIGURATION DE LA PARTIE -->
+        <section class="screen" id="screen-setup">
             <div class="logo">
-                <h1 class="h-title logo-top">Longueur</h1>
-                <svg class="logo-wave" aria-hidden="true" width="230" height="26" viewBox="0 0 230 26" fill="none" stroke-width="4" stroke-linecap="round"><path d="M3 13 Q 17 1 31 13 T 59 13 T 87 13 T 115 13 T 143 13 T 171 13 T 199 13 T 227 13"></path></svg>
-                <div class="h-title logo-bottom">d'ondes</div>
-            </div>
-
-            <p class="tagline">Un indice. Une échelle.<br>Une seule longueur d'ondes.</p>
-
-            <div class="card">
-                <span class="mono-label">COMMENT ÇA MARCHE</span>
-                <div class="how-step"><span class="how-num" style="background: var(--target-wide)">1</span><span>Le <b>Psycho</b> voit seul la cible sur l'échelle.</span></div>
-                <div class="how-step"><span class="how-num" style="background: var(--target-mid)">2</span><span>Il donne <b>un seul indice</b> à voix haute.</span></div>
-                <div class="how-step"><span class="how-num" style="background: var(--target-center)">3</span><span>L'<b>équipe</b> débat et place le curseur.</span></div>
+                <h1 class="logo-word">Longueur<br><span class="accent">d'ondes</span></h1>
+                <svg class="logo-wave" aria-hidden="true" viewBox="0 0 180 22" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round"><path d="M2 11 Q 13 1 24 11 T 46 11 T 68 11 T 90 11 T 112 11 T 134 11 T 156 11 T 178 11"/></svg>
             </div>
 
             <div class="spacer"></div>
 
-            <button class="btn btn-primary" id="btn-start">
-                Initier la session
-                <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+            <span class="group-label" id="teams-label">Équipes</span>
+            <div class="field-group" role="group" aria-labelledby="teams-label">
+                <label class="team-field"><span class="team-dot">1</span><input id="team-name-0" value="Les Ondes" maxlength="16" placeholder="Équipe 1" autocomplete="off" aria-label="Nom de l'équipe 1"></label>
+                <label class="team-field"><span class="team-dot team-dot--b">2</span><input id="team-name-1" value="Les Échos" maxlength="16" placeholder="Équipe 2" autocomplete="off" aria-label="Nom de l'équipe 2"></label>
+            </div>
+
+            <span class="group-label" id="goal-label">Points pour gagner</span>
+            <div class="segmented" role="group" aria-labelledby="goal-label" id="goal-picker">
+                <button type="button" data-goal="5" aria-pressed="false"><b>5</b><small>Express</small></button>
+                <button type="button" data-goal="10" aria-pressed="true"><b>10</b><small>Classique</small></button>
+                <button type="button" data-goal="15" aria-pressed="false"><b>15</b><small>Longue</small></button>
+            </div>
+
+            <button class="btn btn-primary" id="btn-start" type="button">
+                Lancer la partie
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
             </button>
         </section>
 
-        <!-- ÉCRAN 2 : PHASE PSYCHO -->
-        <section id="screen-psychic" class="screen">
-            <ol class="stepper">
-                <li class="step step--yellow is-active" aria-current="step"><span class="step-num">1</span>Psycho</li>
-                <li class="step"><span class="step-num">2</span>Équipe</li>
-                <li class="step"><span class="step-num">3</span>Résultat</li>
-            </ol>
+        <!-- ÉCRAN 2 : PASSATION AU PSYCHO -->
+        <section class="screen" id="screen-pass">
+            <span class="role">
+                <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="6" y="2" width="12" height="20" rx="3"/></svg>
+                Passe le téléphone
+            </span>
+            <h2 class="screen-title">Psycho <span class="accent" id="pass-team"></span>, à toi</h2>
 
-            <div class="screen-head">
-                <span class="sticker sticker--rose">SECRET</span>
-                <h2 class="h-title screen-title screen-title--violet">Psycho,<br>à toi de jouer</h2>
-                <p class="hint">Trouve un indice qui place ton équipe<br>au cœur de la cible.</p>
+            <div class="hold-zone">
+                <button class="hold" id="btn-hold" type="button" aria-label="Maintenir pour voir la cible">
+                    <span class="hold-ring" aria-hidden="true"></span>
+                    <span class="hold-inner">
+                        <svg aria-hidden="true" width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                        Maintiens
+                    </span>
+                </button>
             </div>
-
-            <div class="labels">
-                <div id="p-label-left" class="label-pill label-pill--left">...</div>
-                <div id="p-label-right" class="label-pill label-pill--right">...</div>
-            </div>
-
-            <div class="range-container">
-                <div id="target-psychic" class="track"></div>
-            </div>
-
-            <div class="spacer"></div>
-
-            <button class="btn btn-primary" id="btn-clue-given">
-                J'ai donné mon indice
-                <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
-            </button>
         </section>
 
-        <!-- ÉCRAN 3 : PHASE ÉQUIPE -->
-        <section id="screen-guess" class="screen">
-            <ol class="stepper">
-                <li class="step"><span class="step-num">1</span>Psycho</li>
-                <li class="step step--cyan is-active" aria-current="step"><span class="step-num">2</span>Équipe</li>
-                <li class="step"><span class="step-num">3</span>Résultat</li>
-            </ol>
+        <!-- ÉCRAN 3 : PSYCHO -->
+        <section class="screen" id="screen-psychic">
+            <span class="role">
+                <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z"/><circle cx="12" cy="12" r="3"/></svg>
+                Toi seul
+            </span>
 
-            <div class="screen-head">
-                <span class="sticker sticker--cyan">DÉBAT</span>
-                <h2 class="h-title screen-title screen-title--cyan">Où se cache<br>l'indice ?</h2>
-                <p class="hint">Discutez, puis glissez le curseur.</p>
+            <div class="scale" id="p-scale"></div>
+            <div class="tuner">
+                <div class="band" id="p-band"></div>
+                <div class="freqs" aria-hidden="true"><span>88</span><span>92</span><span>96</span><span>100</span><span>104</span><span>108</span></div>
             </div>
 
-            <div class="labels">
-                <div id="g-label-left" class="label-pill label-pill--left">...</div>
-                <div id="g-label-right" class="label-pill label-pill--right">...</div>
-            </div>
-
-            <div class="range-container range-container--cyan">
-                <input type="range" id="user-guess" min="0" max="100" value="50" aria-label="Position sur l'échelle">
-            </div>
-
-            <div class="spacer"></div>
-
-            <button class="btn btn-cyan" id="btn-confirm">
-                Confirmer la position
-                <svg aria-hidden="true" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5L20 7"></path></svg>
-            </button>
-        </section>
-
-        <!-- ÉCRAN 4 : RÉSULTAT -->
-        <section id="screen-result" class="screen">
-            <ol class="stepper">
-                <li class="step"><span class="step-num">1</span>Psycho</li>
-                <li class="step"><span class="step-num">2</span>Équipe</li>
-                <li class="step step--rose is-active" aria-current="step"><span class="step-num">3</span>Résultat</li>
-            </ol>
-
-            <div class="screen-head">
-                <div id="score-badge" class="score-badge">
-                    <span id="score-value" class="score-value">0</span>
-                    <span id="score-unit" class="score-unit">POINT</span>
-                </div>
-                <h2 class="h-title screen-title screen-title--rose" id="result-title">Analyse</h2>
-            </div>
-
-            <div class="labels labels--plain">
-                <div id="r-label-left" class="label-pill">...</div>
-                <div id="r-label-right" class="label-pill label-pill--right">...</div>
-            </div>
-
-            <div class="range-container range-container--rose">
-                <div id="final-target-zone" class="track"></div>
-            </div>
-
-            <div class="stats">
-                <div class="stat"><div class="stat-label">CIBLE</div><div id="stat-target" class="stat-value">–</div></div>
-                <div class="stat"><div class="stat-label">ÉQUIPE</div><div id="stat-guess" class="stat-value">–</div></div>
-                <div class="stat"><div class="stat-label">ÉCART</div><div id="stat-diff" class="stat-value">–</div></div>
-            </div>
+            <label class="clue-field">
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                <input id="clue" maxlength="40" placeholder="Ton indice" autocomplete="off" aria-label="Ton indice">
+                <span class="optional">Facultatif</span>
+            </label>
 
             <div class="spacer"></div>
 
             <div class="btn-row">
-                <button class="btn btn-secondary" id="btn-menu">Menu</button>
-                <button class="btn btn-primary" id="btn-next">
-                    Tour suivant
-                    <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"></path><path d="M13 6l6 6-6 6"></path></svg>
+                <button class="icon-btn icon-btn--lg" id="btn-shuffle" type="button" aria-label="Autre échelle" title="Autre échelle">
+                    <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 3h5v5M4 20 21 3M21 16v5h-5M15 15l6 6M4 4l5 5"/></svg>
+                </button>
+                <button class="btn btn-primary" id="btn-hide" type="button">
+                    Cacher et passer
+                    <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M17.9 17.9A10 10 0 0 1 12 19C5.5 19 2 12 2 12a18 18 0 0 1 4.1-5M9.9 5.2A9 9 0 0 1 12 5c6.5 0 10 7 10 7a18 18 0 0 1-2.2 3.2M2 2l20 20"/></svg>
                 </button>
             </div>
+        </section>
+
+        <!-- ÉCRAN 4 : ÉQUIPE -->
+        <section class="screen" id="screen-guess">
+            <span class="role">
+                <svg aria-hidden="true" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><circle cx="9" cy="8" r="3"/><path d="M3 20c0-3 3-5 6-5s6 2 6 5M16 5a3 3 0 0 1 0 6M21 20c0-2.5-1.5-4.2-4-4.8"/></svg>
+                <span id="guess-team"></span>
+            </span>
+            <h2 class="clue-display" id="clue-display"></h2>
+
+            <div class="scale" id="g-scale"></div>
+            <div class="tuner">
+                <div class="band band--live" id="g-band" tabindex="0" role="slider" aria-label="Position sur l'échelle" aria-valuemin="0" aria-valuemax="100" aria-valuenow="50"></div>
+                <div class="freqs" aria-hidden="true"><span>88</span><span>92</span><span>96</span><span>100</span><span>104</span><span>108</span></div>
+            </div>
+
+            <div class="dial-row">
+                <div class="readout"><span id="readout">98.0</span><small>MHz</small></div>
+                <button class="knob" id="knob" type="button" aria-label="Molette de réglage fin"></button>
+            </div>
+
+            <div class="spacer"></div>
+
+            <button class="btn btn-primary" id="btn-lock" type="button">
+                Verrouiller
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2.5"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/></svg>
+            </button>
+        </section>
+
+        <!-- ÉCRAN 5 : RÉSULTAT -->
+        <section class="screen" id="screen-result">
+            <div class="result-head">
+                <div class="points" id="result-points">0</div>
+                <div class="result-text">
+                    <div class="signal" id="signal" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+                    <h2 class="result-title" id="result-title"></h2>
+                </div>
+            </div>
+
+            <div class="scale" id="r-scale"></div>
+            <div class="tuner">
+                <div class="band" id="r-band"></div>
+                <div class="freqs" aria-hidden="true"><span>88</span><span>92</span><span>96</span><span>100</span><span>104</span><span>108</span></div>
+            </div>
+            <p class="result-meta">Cible <b id="stat-target">–</b> · Équipe <b id="stat-guess">–</b> · Écart <b id="stat-diff">–</b></p>
+
+            <div class="spacer"></div>
+
+            <button class="btn btn-primary" id="btn-next" type="button">
+                <span id="btn-next-label">Manche suivante</span>
+                <svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+            </button>
+        </section>
+
+        <!-- ÉCRAN 6 : VICTOIRE -->
+        <section class="screen" id="screen-win">
+            <div class="win">
+                <div class="trophy">
+                    <svg aria-hidden="true" width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 21h8M12 17v4M7 4h10v5a5 5 0 0 1-10 0V4zM17 5h3v2a3 3 0 0 1-3 3M7 5H4v2a3 3 0 0 0 3 3"/></svg>
+                </div>
+                <h2 class="screen-title"><span class="accent" id="win-team"></span><br>sur la même fréquence</h2>
+                <div class="win-score" id="win-score"></div>
+            </div>
+            <button class="btn btn-primary" id="btn-rematch" type="button">Revanche</button>
+            <button class="btn btn-ghost" id="btn-new" type="button">Nouvelles équipes</button>
         </section>
     </main>
 
