@@ -37,10 +37,12 @@ function toggleTheme() {
     document.documentElement.dataset.theme = theme;
     try { localStorage.setItem(THEME_KEY, theme); } catch (e) { /* stockage indisponible */ }
 }
-try {
-    const savedTheme = localStorage.getItem(THEME_KEY);
-    if (savedTheme) document.documentElement.dataset.theme = savedTheme;
-} catch (e) { /* stockage indisponible */ }
+// (le thème enregistré est appliqué dans le <head>, avant le premier rendu)
+
+// --- Écran de lancement : disparaît seul, ou au premier tap ---
+const splash = $('splash');
+splash.addEventListener('pointerdown', () => splash.classList.add('is-leaving'));
+splash.addEventListener('animationend', e => { if (e.animationName === 'splash-out') splash.remove(); });
 
 // --- Rendu ---
 const escapeHTML = s => s.replace(/[&<>"]/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]));
